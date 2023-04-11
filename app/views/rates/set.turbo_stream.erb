@@ -1,1 +1,1 @@
-<%= turbo_stream.replace "rates", @rate %>
+<%= turbo_stream.replace "rates", target: "rates", partial: "rates/rate", locals: { rate: @current_rate } %>
