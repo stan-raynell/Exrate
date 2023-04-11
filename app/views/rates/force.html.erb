@@ -1,0 +1,17 @@
+<%= form_with(model: @rate, url: "/admin", remote: true) do |form| %>
+  <p>
+    <%= form.label :value, "Обменный курс" %><br>
+    <%= form.text_area :value %>
+  </p>
+  <p>
+    <%= form.label :end_date, "Дата окончания" %><br>
+    <%= form.datetime_select :end_date %>
+  </p>
+  <p>
+    <%= form.submit "Установить курс", class: "btn btn--primary" %>
+  </p>
+<% end %>
+<% if Rate.last %>
+  <%= Rate.last.value %>
+  <%= Rate.last.end_date %>
+<% end %>
