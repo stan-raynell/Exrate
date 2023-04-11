@@ -1,6 +1,6 @@
 class RatesController < ApplicationController
   def index
-    @rate = Rate.last || Rate.new(value: "Курс не получен")
+    @rate = Rate.last || Rate.new(value: "Курс не получен", end_date: 5.minutes.ago)
     if Rate.where(id: 1).present? and DateTime.current > @rate.end_date
       @rate = Rate.find(1)
     end
@@ -15,10 +15,11 @@ class RatesController < ApplicationController
     @rate = Rate.new(params.fetch(:rate).permit(:end_date, :value))
     if @rate.save
       if DateTime.current < @rate.end_date
-        Turbo::StreamsChannel.broadcast_update_to "rates", target: "rates", partial: "rates/rate", locals: { rate: @rate }
-      else
-        @current_rate = Rate.find(1)
-        Turbo::StreamsChannel.broadcast_update_to "rates", target: "rates", partial: "rates/rate", locals: { rate: @current_rate }
+        PollRateJob.set(wait_until: @rate.end_date).perform_later
+        Turbo::StreamsChannel.broadcast_update_to "rates",
+                                                  target: "rates",
+                                                  partial: "rates/rate",
+                                                  locals: { rate: @rate }
       end
       redirect_to "/admin"
     else

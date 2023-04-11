@@ -78,3 +78,7 @@ end
 gem "nokogiri", "~> 1.14"
 
 gem "open-uri", "~> 0.3.0"
+
+gem "whenever", "~> 1.0"
+
+gem "sidekiq", "~> 7.0"
