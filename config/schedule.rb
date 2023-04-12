@@ -15,7 +15,7 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 15.minutes do
+every 12.hours do
   runner "Rate.get_rate"
 end
 
