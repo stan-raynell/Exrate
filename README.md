@@ -35,5 +35,7 @@ http://www.rbc.ru, и т.д.).
 
 Для запуска приложения выполнить команды:
 bundle install
+
 rails db:migrate
+
 bin/dev
