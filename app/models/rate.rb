@@ -8,5 +8,11 @@ class Rate < ApplicationRecord
     @rate.value = Nokogiri::XML(URI.open("http://www.cbr.ru/scripts/XML_daily.asp"))
                           .xpath('//Valute[@ID="R01235"]/Value').text
     @rate.save
+    if DateTime.current > Rate.last.end_date
+      Turbo::StreamsChannel.broadcast_update_to "rates",
+                                                target: "rates",
+                                                partial: "rates/rate",
+                                                locals: { rate: @rate }
+    end
   end
 end

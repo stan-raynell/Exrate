@@ -15,17 +15,17 @@ class RatesController < ApplicationController
   def set
     Rate.get_rate
     @rate = Rate.new(params.fetch(:rate).permit(:end_date, :value))
-    if @rate.save
-      if DateTime.current < @rate.end_date
+    if DateTime.current < @rate.end_date
+      if @rate.save
         PollRateJob.set(wait_until: @rate.end_date).perform_later
         Turbo::StreamsChannel.broadcast_update_to "rates",
                                                   target: "rates",
                                                   partial: "rates/rate",
                                                   locals: { rate: @rate }
+        redirect_to "/admin"
+      else
+        render :force, status: :unprocessable_entity
       end
-      redirect_to "/admin"
-    else
-      render :force, status: :unprocessable_entity
     end
   end
 end
