@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class RatesController < ApplicationController
   def index
     @rate = Rate.last || Rate.new(value: "Курс не получен", end_date: 5.minutes.ago)
-    if Rate.where(id: 1).present? and DateTime.current > @rate.end_date
-      @rate = Rate.find(1)
-    end
+    return unless Rate.where(id: 1).present? && (DateTime.current > @rate.end_date)
+
+    @rate = Rate.find(1)
   end
 
   def force

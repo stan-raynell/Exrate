@@ -1,4 +1,8 @@
 <%= turbo_stream_from "rates" %>
+<div class="container">
+Текущий обменный курс:
 <%= turbo_frame_tag "rates" do %>
   <%= render @rate %>
 <% end %>
+руб. за 1 долл. США
+</div>
