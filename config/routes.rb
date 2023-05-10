@@ -2,7 +2,6 @@
 
 Rails.application.routes.draw do
   root "rates#index"
-  get "/admin", to: "rates#force"
-  post "/admin", to: "rates#set"
-  resources :rates
+  get "/admin", to: "rates#show"
+  post "/admin", to: "rates#set_forced_rate"
 end

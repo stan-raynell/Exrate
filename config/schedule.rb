@@ -16,7 +16,7 @@
 # end
 #
 every 12.hours do
-  runner "Rate.get_rate"
+  runner "RateGetJob.perform_later"
 end
 
 # Learn more: http://github.com/javan/whenever

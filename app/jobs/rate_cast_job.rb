@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PollRateJob < ApplicationJob
+class RateCastJob < ApplicationJob
   queue_as :default
 
   def perform
