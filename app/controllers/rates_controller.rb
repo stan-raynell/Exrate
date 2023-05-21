@@ -2,7 +2,7 @@
 
 class RatesController < ApplicationController
   def index
-    RateGetJob.perform_later if !Rate.last
+    RateGetJob.perform_now if !Rate.last
     @rate = Rate.last
     return unless Rate.where(id: 1).present? && (DateTime.current > @rate.end_date)
 
